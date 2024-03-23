@@ -11,12 +11,12 @@ serverSocket.listen()
 
 while True:
     socketConection, addr = serverSocket.accept()
-    print("Conectado con cliente", addr)
+    print("Connected to client: ", addr)
 
-    hora = datetime.datetime.now()
+    time = datetime.datetime.now()
 
-    horaCadena = hora.strftime('%Y%m%d %H:%M:%f')
-    print(" Envio la hora al cliente", addr)
-    print(hora)
-    socketConection.send(horaCadena.encode())
+    timeString = time.strftime('%Y%m%d %H:%M:%f')
+    print("Sending time to client: ", addr)
+    print(time)
+    socketConection.send(timeString.encode())
     socketConection.close()
