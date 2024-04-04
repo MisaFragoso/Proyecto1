@@ -1,5 +1,6 @@
 import socket
 import time
+import threading  # Importamos el módulo threading
 
 def berkeley_server(port):
     # Creamos un socket TCP/IP
@@ -21,7 +22,22 @@ def berkeley_server(port):
                     # Respondemos con la hora actual del servidor
                     current_time = time.time()
                     conn.sendall(str(current_time).encode())
+                    print("Sent time:", current_time)
 
+# Función para calcular el promedio de los tiempos recibidos
+def calculate_average_times(times):
+    if not times:
+        return None
+    return sum(times) / len(times)
+
+# Ejemplo de uso
 if __name__ == "__main__":
     server_port = 12345
-    berkeley_server(server_port)
+    times = []
+
+    # Iniciar el servidor Berkeley en un hilo
+    berkeley_server_thread = threading.Thread(target=berkeley_server, args=(server_port,))
+    berkeley_server_thread.start()
+
+    # Esperar a que el servidor inicie antes de conectarse
+    time.sleep(1)
